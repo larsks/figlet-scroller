@@ -17,7 +17,7 @@ def parse_args():
 
     p.add_argument("-f", "--font", default=DEFAULT_FONT)
     p.add_argument("-i", "--interval", type=float, default=DEFAULT_INTERVAL)
-    p.add_argument("message")
+    p.add_argument("message", nargs="+")
 
     return p.parse_args()
 
@@ -26,7 +26,7 @@ def main():
     args = parse_args()
     banner = (
         subprocess.check_output(
-            ["figlet", "-f", args.font, "-w", "10000", args.message]
+            ["figlet", "-f", args.font, "-w", "10000", " ".join(args.message)]
         )
         .decode()
         .splitlines()
