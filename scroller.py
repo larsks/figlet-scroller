@@ -47,7 +47,7 @@ def main():
         linelen = len(banner[0])
 
     pos = itertools.cycle(range(linelen))
-    with term.fullscreen():
+    with term.fullscreen(), term.hidden_cursor():
         print(term.clear())
         while True:
             for p in pos:
