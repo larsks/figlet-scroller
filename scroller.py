@@ -3,12 +3,18 @@ import blessed
 import itertools
 import subprocess
 import time
+import dotenv
+import os
+
+dotenv.load_dotenv()
+
+DEFAULT_FONT = os.getenv("FIGLET_FONT", "big")
 
 
 def parse_args():
     p = argparse.ArgumentParser()
 
-    p.add_argument("-f", "--font", default="big")
+    p.add_argument("-f", "--font", default=DEFAULT_FONT)
     p.add_argument("-i", "--interval", type=float, default=0.1)
     p.add_argument("message")
 
