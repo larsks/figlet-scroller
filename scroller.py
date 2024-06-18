@@ -34,27 +34,38 @@ def main():
     linelen = len(banner[0])
     for line in banner:
         if len(line) != linelen:
-            raise ValueError("inconsitent line length")
+            raise ValueError("inconsistent line length")
 
     banner = [line for line in banner if line.strip()]
 
     term = blessed.Terminal()
+
+    print("before", linelen, term.width)
+
     if linelen < term.width:
-        for i, line in enumerate(banner):
-            banner[i] = (banner[i] + "    ") * (term.width // linelen)
+        for i in range(len(banner)):
+            banner[i] = " ".join([banner[i]] * (1 + (term.width // linelen)))
         linelen = len(banner[0])
 
+    print("after", linelen, term.width)
+
     pos = itertools.cycle(range(linelen))
+    print(term.clear)
     while True:
         for p in pos:
-            print(term.clear())
-            remainder = term.width - (linelen - p)
+            print(term.home)
+            window = (p, min(linelen, p + term.width))
+            remainder = term.width - (window[1] - window[0])
             for line in banner:
-                print(line[p : p + term.width], end="")
+                print(line[window[0] : window[1]], end="")
                 if remainder > 0:
                     print(line[0:remainder], end="")
                 print()
             print()
+
+            # print(
+            #     f"linelen {linelen} width {term.width} pos {p} remainder {remainder} window {window}           "
+            # )
 
             time.sleep(args.interval)
 
