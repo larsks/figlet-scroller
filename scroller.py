@@ -51,14 +51,12 @@ def main():
         print(term.clear())
         while True:
             for p in pos:
-                print(term.home)
                 window = (p, min(linelen, p + term.width))
                 remainder = term.width - (window[1] - window[0])
-                for line in banner:
-                    print(line[window[0] : window[1]], end="")
+                for i, line in enumerate(banner):
+                    print(term.move_xy(0, i) + line[window[0] : window[1]], end="")
                     if remainder > 0:
                         print(line[0:remainder], end="")
-                    print()
                 print()
 
                 # print(
