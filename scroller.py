@@ -9,13 +9,14 @@ import os
 dotenv.load_dotenv()
 
 DEFAULT_FONT = os.getenv("FIGLET_FONT", "big")
+DEFAULT_INTERVAL = os.getenv("FIGLET_INTERVAL", "0.1")
 
 
 def parse_args():
     p = argparse.ArgumentParser()
 
     p.add_argument("-f", "--font", default=DEFAULT_FONT)
-    p.add_argument("-i", "--interval", type=float, default=0.1)
+    p.add_argument("-i", "--interval", type=float, default=DEFAULT_INTERVAL)
     p.add_argument("message")
 
     return p.parse_args()
