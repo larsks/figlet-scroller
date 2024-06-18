@@ -41,14 +41,10 @@ def main():
 
     term = blessed.Terminal()
 
-    print("before", linelen, term.width)
-
     if linelen < term.width:
         for i in range(len(banner)):
             banner[i] = " ".join([banner[i]] * (1 + (term.width // linelen)))
         linelen = len(banner[0])
-
-    print("after", linelen, term.width)
 
     pos = itertools.cycle(range(linelen))
     print(term.clear)
