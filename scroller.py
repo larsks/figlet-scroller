@@ -47,24 +47,25 @@ def main():
         linelen = len(banner[0])
 
     pos = itertools.cycle(range(linelen))
-    print(term.clear)
-    while True:
-        for p in pos:
-            print(term.home)
-            window = (p, min(linelen, p + term.width))
-            remainder = term.width - (window[1] - window[0])
-            for line in banner:
-                print(line[window[0] : window[1]], end="")
-                if remainder > 0:
-                    print(line[0:remainder], end="")
+    with term.fullscreen():
+        print(term.clear())
+        while True:
+            for p in pos:
+                print(term.home)
+                window = (p, min(linelen, p + term.width))
+                remainder = term.width - (window[1] - window[0])
+                for line in banner:
+                    print(line[window[0] : window[1]], end="")
+                    if remainder > 0:
+                        print(line[0:remainder], end="")
+                    print()
                 print()
-            print()
 
-            # print(
-            #     f"linelen {linelen} width {term.width} pos {p} remainder {remainder} window {window}           "
-            # )
+                # print(
+                #     f"linelen {linelen} width {term.width} pos {p} remainder {remainder} window {window}           "
+                # )
 
-            time.sleep(args.interval)
+                time.sleep(args.interval)
 
 
 if __name__ == "__main__":
