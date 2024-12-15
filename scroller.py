@@ -6,20 +6,31 @@ import time
 import dotenv
 import os
 
+from dataclasses import dataclass
+
 dotenv.load_dotenv()
 
 DEFAULT_FONT = os.getenv("FIGLET_FONT", "big")
 DEFAULT_INTERVAL = os.getenv("FIGLET_INTERVAL", "0.1")
 
 
-def parse_args():
+@dataclass
+class Args:
+    message: str
+    line: int = 0
+    font: str = DEFAULT_FONT
+    interval: float = 0.1
+
+
+def parse_args() -> Args:
     p = argparse.ArgumentParser()
 
+    p.add_argument("-l", "--line", type=int, default=0)
     p.add_argument("-f", "--font", default=DEFAULT_FONT)
     p.add_argument("-i", "--interval", type=float, default=DEFAULT_INTERVAL)
     p.add_argument("message", nargs="+")
 
-    return p.parse_args()
+    return Args(**vars(p.parse_args()))
 
 
 def main():
@@ -54,7 +65,10 @@ def main():
                 window = (p, min(linelen, p + term.width))
                 remainder = term.width - (window[1] - window[0])
                 for i, line in enumerate(banner):
-                    print(term.move_xy(0, i) + line[window[0] : window[1]], end="")
+                    print(
+                        term.move_xy(0, args.line + i) + line[window[0] : window[1]],
+                        end="",
+                    )
                     if remainder > 0:
                         print(line[0:remainder], end="")
                 print()
